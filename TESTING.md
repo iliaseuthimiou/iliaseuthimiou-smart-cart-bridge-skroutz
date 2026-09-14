@@ -11,7 +11,7 @@ Run these checks on a staging WooCommerce site before publishing a release or in
 ## Activation and settings
 
 1. Activate the plugin with WooCommerce active.
-2. Confirm **WooCommerce → Skroutz Bridge** opens without notices or PHP errors.
+2. Confirm **WooCommerce → Smart Cart Bridge** opens without notices or PHP errors.
 3. Save each matching mode and confirm the selection persists.
 4. Confirm the displayed webhook URL uses HTTPS and contains a non-empty `key` parameter.
 5. Regenerate the URL and confirm the previous key receives HTTP 401.
@@ -20,7 +20,7 @@ Run these checks on a staging WooCommerce site before publishing a release or in
 
 1. Send a valid `new_order` payload with the current key.
 2. Confirm exactly one WooCommerce order is created.
-3. Confirm customer, address, items, quantities, totals, order code, and Skroutz state are correct.
+3. Confirm customer, shipping and invoice billing addresses, items, quantities, shipping cost, totals, order code, and Skroutz state are correct.
 4. Confirm the matching product or variation stock is reduced once.
 5. Send the exact payload again.
 6. Confirm no second order is created and stock is not reduced again.
@@ -35,7 +35,7 @@ Confirm each of these requests creates no partial WooCommerce order:
 - Unknown product identifier.
 - Unknown variation identifier.
 - Variation belonging to a different parent product.
-- Zero quantity or invalid price.
+- Zero quantity, invalid price, or invalid shipping cost.
 
 ## Order updates
 

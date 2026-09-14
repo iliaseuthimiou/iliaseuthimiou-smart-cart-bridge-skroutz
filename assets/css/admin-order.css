@@ -1,0 +1,28 @@
+.column-sscb_skroutz {
+	width: 92px;
+	text-align: center;
+}
+
+.sscb-badge {
+	display: inline-block;
+	padding: 3px 7px;
+	border-radius: 4px;
+	background: #f08a00;
+	color: #fff;
+	font-size: 11px;
+	font-weight: 600;
+	line-height: 1.4;
+}
+
+.sscb-badge-empty {
+	background: transparent;
+	color: #999;
+}
+
+#sscb-order-info table th {
+	width: 42%;
+}
+
+#sscb-order-info table td {
+	overflow-wrap: anywhere;
+}
