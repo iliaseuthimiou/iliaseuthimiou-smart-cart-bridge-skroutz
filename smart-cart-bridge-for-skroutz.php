@@ -1,19 +1,20 @@
 <?php
 /**
- * Plugin Name:       Skroutz Smart Cart Bridge for WooCommerce
+ * Plugin Name:       Smart Cart Bridge for Skroutz
  * Plugin URI:        https://github.com/iliaseuthimiou/woocommerce-skroutz-smart-cart-bridge
- * Description:       Imports Skroutz Smart Cart webhook orders into WooCommerce and keeps their state and shipment details synchronized.
- * Version:           1.0.0
+ * Description:       Imports Skroutz Marketplace order webhooks into WooCommerce and synchronizes order and shipment updates.
+ * Version:           1.0.1
  * Author:            Ilias Euthimiou
  * Author URI:        https://iliaseuthimiou.com
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain:       skroutz-smart-cart-bridge
+ * Text Domain:       smart-cart-bridge-for-skroutz
  * Requires at least: 6.3
  * Requires PHP:      7.4
  * Requires Plugins:  woocommerce
+ * WC requires at least: 8.0
  *
- * @package SkroutzSmartCartBridge
+ * @package SmartCartBridgeForSkroutz
  */
 
 /*
@@ -29,7 +30,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'SSCB_VERSION', '1.0.0' );
+define( 'SSCB_VERSION', '1.0.1' );
 define( 'SSCB_PLUGIN_FILE', __FILE__ );
 define( 'SSCB_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 
@@ -37,12 +38,12 @@ require_once SSCB_PLUGIN_DIR . 'includes/class-plugin.php';
 
 register_activation_hook(
 	SSCB_PLUGIN_FILE,
-	array( 'IliasEuthimiou\\SkroutzSmartCartBridge\\Plugin', 'activate' )
+	array( 'IliasEuthimiou\\SmartCartBridgeForSkroutz\\Plugin', 'activate' )
 );
 
 add_action(
 	'before_woocommerce_init',
-	array( 'IliasEuthimiou\\SkroutzSmartCartBridge\\Plugin', 'declare_woocommerce_compatibility' )
+	array( 'IliasEuthimiou\\SmartCartBridgeForSkroutz\\Plugin', 'declare_woocommerce_compatibility' )
 );
 
-IliasEuthimiou\SkroutzSmartCartBridge\Plugin::instance();
+IliasEuthimiou\SmartCartBridgeForSkroutz\Plugin::instance();

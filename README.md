@@ -1,6 +1,6 @@
-# Skroutz Smart Cart Bridge for WooCommerce
+# Smart Cart Bridge for Skroutz
 
-An unofficial WordPress plugin that receives Skroutz Smart Cart order webhooks, creates the corresponding WooCommerce orders, and synchronizes later order-state and shipment updates.
+An unofficial WordPress plugin that receives Skroutz Marketplace Smart Cart order webhooks, creates the corresponding WooCommerce orders, and synchronizes later order-state and shipment updates.
 
 > This is an independent open-source project. It is not affiliated with, endorsed by, or maintained by Skroutz.
 
@@ -9,13 +9,14 @@ Created and maintained by [Ilias Euthimiou](https://iliaseuthimiou.com).
 ## What it does
 
 - Receives `new_order` and `order_updated` webhook events.
-- Creates WooCommerce orders with customer addresses and line items.
+- Creates WooCommerce orders with customer addresses, line items, and marketplace shipping costs.
+- Uses invoice billing addresses when invoice details are supplied.
 - Matches products and variations by WooCommerce ID, SKU, or an exact custom-meta value.
 - Prevents duplicate WooCommerce orders when a webhook is retried.
 - Protects the webhook with a randomly generated secret URL.
-- Synchronizes order state, courier, voucher, tracking, pickup, invoice, and fulfillment metadata.
+- Synchronizes order state, courier, voucher, tracking, pickup, invoice, payment, fee, and fulfillment metadata.
 - Supports both legacy WooCommerce order storage and High-Performance Order Storage (HPOS).
-- Adds a Skroutz information box and state column to WooCommerce order administration.
+- Adds a marketplace information box and state column to WooCommerce order administration.
 - Logs only privacy-safe event summaries when debug logging is enabled.
 
 ## Requirements
@@ -30,17 +31,23 @@ Created and maintained by [Ilias Euthimiou](https://iliaseuthimiou.com).
 
 ### Install the ZIP
 
-1. Download the release ZIP.
+1. Download `smart-cart-bridge-for-skroutz-1.0.1.zip` from the latest GitHub release.
 2. In WordPress, open **Plugins → Add New Plugin → Upload Plugin**.
-3. Upload the ZIP and activate **Skroutz Smart Cart Bridge for WooCommerce**.
+3. Upload the ZIP and activate **Smart Cart Bridge for Skroutz**.
 
 ### Install from source
 
-Clone this repository into `wp-content/plugins/skroutz-smart-cart-bridge`, then activate it from the WordPress Plugins screen.
+Clone this repository into the intended plugin directory:
+
+```bash
+git clone https://github.com/iliaseuthimiou/woocommerce-skroutz-smart-cart-bridge.git smart-cart-bridge-for-skroutz
+```
+
+Then activate it from the WordPress Plugins screen.
 
 ## Configuration
 
-1. Open **WooCommerce → Skroutz Bridge**.
+1. Open **WooCommerce → Smart Cart Bridge**.
 2. Select how `shop_uid` maps to WooCommerce products.
 3. Select how `shop_variation_uid` maps to WooCommerce variations.
 4. When using custom-meta matching, enter the exact meta key used by the products or variations.
@@ -60,7 +67,7 @@ The plugin supports three exact matching modes:
 | SKU | `shop_uid` or `shop_variation_uid` | Product or variation SKU |
 | Custom meta | `shop_uid` or `shop_variation_uid` | Exact value in the configured meta key |
 
-All line items are validated before the WooCommerce order is created. If any product or variation cannot be matched, the webhook returns a non-success response so the delivery can be retried after the catalog mapping is corrected. A variation must belong to the resolved parent product.
+All line items are validated before the WooCommerce order is created. If any product or variation cannot be matched, the webhook returns a non-success response so delivery can be retried after the catalog mapping is corrected. A variation must belong to the resolved parent product.
 
 ## Order status behavior
 
@@ -75,18 +82,28 @@ Terminal WooCommerce orders are not moved backwards by later webhook retries.
 
 ## Webhook security
 
-Skroutz order webhooks do not include a signature or bearer credential. This plugin therefore creates a long random secret and requires it on every webhook request through the registered URL.
+The documented Skroutz order webhook does not include a signature or bearer credential. This plugin therefore creates a long random secret and requires it on every webhook request through the registered URL.
 
 For defense in depth, you can also allow the official Skroutz webhook IP ranges at your firewall or security service. Consult the current official documentation before applying an IP allowlist because ranges can change and reverse proxies require correct client-IP handling.
 
 Official documentation:
 
-- [Skroutz Smart Cart webhook](https://developer.skroutz.gr/smart_cart/webhook/)
-- [Skroutz Smart Cart Orders API](https://developer.skroutz.gr/smart_cart/orders_api/)
+- [Skroutz Marketplace order webhook](https://developer.skroutz.gr/smart_cart/webhook/)
+- [Skroutz Marketplace Orders API](https://developer.skroutz.gr/smart_cart/orders_api/)
+
+## External service
+
+This plugin integrates a WooCommerce site with the external Skroutz Marketplace service. It does not send background API requests to Skroutz. Once a merchant registers the generated webhook URL, Skroutz sends order events to the site. Those requests can include order identifiers, product identifiers, quantities, prices, shipping charges, customer contact and address data, invoice information, and shipment details. The plugin returns a small processing response containing the event type and order code.
+
+The connection is configured by the site owner and requires a separate Skroutz Marketplace merchant account.
+
+- [Service documentation](https://developer.skroutz.gr/smart_cart/webhook/)
+- [Merchant terms](https://merchants.skroutz.gr/merchants/terms?lang=en&store_lang=true)
+- [Skroutz privacy policy](https://corporate.skroutz.gr/en/privacy-policy/)
 
 ## Privacy
 
-Customer address details received in a valid order event are stored in the WooCommerce order, as required to fulfill the order. Debug logging is disabled by default and never writes the raw webhook payload, customer name, address, email, or telephone number.
+Customer and invoice details received in a valid order event are stored in the WooCommerce order as required to fulfill and document the order. Debug logging is disabled by default and never writes the raw webhook payload, customer name, address, email, or telephone number.
 
 Site owners remain responsible for their privacy policy, retention settings, access controls, and legal obligations.
 
@@ -94,7 +111,7 @@ Site owners remain responsible for their privacy policy, retention settings, acc
 
 This release imports and synchronizes incoming order webhooks. It does not call the separate Skroutz Orders API to accept or reject an order, upload an invoice, download a voucher, or mark a parcel as ready for dispatch.
 
-The WooCommerce order total is built from the line-item totals supplied in the webhook. Marketplace settlements, commissions, and merchant-side fees are not added as customer-facing WooCommerce charges.
+WooCommerce order totals are built from the line-item totals and any `shipping_cost` supplied in the webhook. Marketplace commissions and merchant-side fees are stored as metadata and are not added as customer-facing WooCommerce charges.
 
 This package uses its own options and order metadata namespace. It is not intended as a drop-in update for differently prefixed private forks without a planned data migration.
 
@@ -108,7 +125,7 @@ Run a PHP syntax check from the repository root:
 find . -name '*.php' -not -path './vendor/*' -print0 | xargs -0 -n1 php -l
 ```
 
-Before tagging a release, complete the staging checks in [TESTING.md](TESTING.md).
+Before tagging a release, complete the staging checks in [TESTING.md](TESTING.md). GitHub Actions also runs PHP syntax checks and the official WordPress Plugin Check action.
 
 ## License
 

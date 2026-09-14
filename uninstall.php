@@ -4,7 +4,7 @@
  *
  * Order metadata is intentionally retained with historical orders.
  *
- * @package SkroutzSmartCartBridge
+ * @package SmartCartBridgeForSkroutz
  */
 
 if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {

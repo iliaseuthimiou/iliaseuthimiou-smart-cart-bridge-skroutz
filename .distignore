@@ -1,0 +1,10 @@
+.github
+.git
+.gitattributes
+.gitignore
+.wp-env.json
+.distignore
+CHANGELOG.md
+README.md
+SECURITY.md
+TESTING.md
