@@ -84,7 +84,6 @@ final class Plugin {
 	 * Register hooks.
 	 */
 	private function __construct() {
-		add_action( 'init', array( $this, 'load_textdomain' ) );
 		add_action( 'admin_init', array( $this, 'register_settings' ) );
 		add_action( 'admin_menu', array( $this, 'add_settings_page' ) );
 		add_action( 'admin_notices', array( $this, 'woocommerce_missing_notice' ) );
@@ -100,19 +99,6 @@ final class Plugin {
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_order_styles' ) );
 
 		add_filter( 'plugin_action_links_' . plugin_basename( SSCB_PLUGIN_FILE ), array( $this, 'plugin_action_links' ) );
-	}
-
-	/**
-	 * Load translations.
-	 *
-	 * @return void
-	 */
-	public function load_textdomain(): void {
-		load_plugin_textdomain(
-			'smart-cart-bridge-for-skroutz',
-			false,
-			dirname( plugin_basename( SSCB_PLUGIN_FILE ) ) . '/languages'
-		);
 	}
 
 	/**
@@ -1034,8 +1020,8 @@ final class Plugin {
 					'fields'         => 'ids',
 					'posts_per_page' => 2,
 					'no_found_rows'  => true,
-					'meta_key'       => $meta_key,
-					'meta_value'     => $identifier,
+					'meta_key'       => $meta_key, // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key -- Exact administrator-configured lookup, limited to two results.
+					'meta_value'     => $identifier, // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value -- Exact administrator-configured lookup, limited to two results.
 				)
 			);
 
@@ -1312,8 +1298,8 @@ final class Plugin {
 				'limit'      => 1,
 				'orderby'    => 'date',
 				'order'      => 'DESC',
-				'meta_key'   => self::META_ORDER_CODE,
-				'meta_value' => $order_code,
+				'meta_key'   => self::META_ORDER_CODE, // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key -- Required HPOS-compatible lookup by unique marketplace code.
+				'meta_value' => $order_code, // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value -- Required HPOS-compatible lookup by unique marketplace code.
 				'return'     => 'objects',
 			)
 		);
