@@ -1,9 +1,9 @@
-=== Smart Cart Bridge for Skroutz ===
+=== IliasEuthimiou Smart Cart Bridge for Skroutz ===
 Tags: woocommerce, skroutz, marketplace, webhook, orders
 Requires at least: 6.3
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -11,7 +11,7 @@ Import Skroutz Marketplace Smart Cart webhook orders into WooCommerce and synchr
 
 == Description ==
 
-Smart Cart Bridge for Skroutz is an unofficial integration that receives Skroutz Marketplace new-order and order-update webhooks.
+IliasEuthimiou Smart Cart Bridge for Skroutz is an unofficial integration that receives Skroutz Marketplace new-order and order-update webhooks.
 
 Features:
 
@@ -38,7 +38,7 @@ This independent project is not affiliated with, endorsed by, or maintained by S
 == Installation ==
 
 1. Upload the plugin ZIP from Plugins > Add New Plugin > Upload Plugin.
-2. Activate Smart Cart Bridge for Skroutz.
+2. Activate IliasEuthimiou Smart Cart Bridge for Skroutz.
 3. Open WooCommerce > Smart Cart Bridge.
 4. Configure product and variation matching.
 5. Copy the complete webhook URL into the Skroutz Marketplace merchant settings.
@@ -61,7 +61,7 @@ The service is used only after the site owner configures it and requires a separ
 
 = Does it accept or reject orders through the Orders API? =
 
-No. Version 1.0.1 imports and synchronizes incoming webhook events only.
+No. Version 1.0.2 imports and synchronizes incoming webhook events only.
 
 = What happens when Skroutz retries a webhook? =
 
@@ -76,6 +76,11 @@ No. Logging is disabled by default and includes only the event type, order code,
 The plugin stores the customer, delivery, invoice, product, price, shipping, payment, and shipment information supplied for an order in WooCommerce. Plugin settings and the webhook secret are stored in WordPress options.
 
 == Changelog ==
+
+= 1.0.2 =
+
+* Added the distinctive IliasEuthimiou identifier requested during WordPress.org review.
+* Updated the plugin slug, text domain, package name, and webhook route before directory approval.
 
 = 1.0.1 =
 

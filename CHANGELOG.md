@@ -2,6 +2,11 @@
 
 All notable changes to this project are documented here.
 
+## 1.0.2 — 2026-09-15
+
+- Added the distinctive IliasEuthimiou identifier requested during WordPress.org review.
+- Updated the plugin slug, text domain, package name, repository URL, and webhook route before directory approval.
+
 ## 1.0.1 — 2026-09-14
 
 - Renamed the public plugin to Smart Cart Bridge for Skroutz for WordPress.org trademark compliance.

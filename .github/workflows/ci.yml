@@ -41,10 +41,10 @@ jobs:
       - name: Build production tree
         run: |
           mkdir -p build
-          git archive --format=tar --prefix=smart-cart-bridge-for-skroutz/ HEAD | tar -x -C build
+          git archive --format=tar --prefix=iliaseuthimiou-smart-cart-bridge-skroutz/ HEAD | tar -x -C build
 
       - name: Run official Plugin Check
         uses: wordpress/plugin-check-action@v1
         with:
-          build-dir: ./build/smart-cart-bridge-for-skroutz
-          slug: smart-cart-bridge-for-skroutz
+          build-dir: ./build/iliaseuthimiou-smart-cart-bridge-skroutz
+          slug: iliaseuthimiou-smart-cart-bridge-skroutz
