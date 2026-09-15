@@ -27,9 +27,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 final class Plugin {
 
-	private const REST_NAMESPACE = 'skroutz-smart-cart-bridge/v1';
+	private const REST_NAMESPACE = 'iliaseuthimiou-smart-cart-bridge-skroutz/v1';
 	private const REST_ROUTE     = '/orders';
-	private const LOG_SOURCE     = 'smart-cart-bridge-for-skroutz';
+	private const LOG_SOURCE     = 'iliaseuthimiou-smart-cart-bridge-skroutz';
 
 	private const OPTION_WEBHOOK_SECRET      = 'sscb_webhook_secret';
 	private const OPTION_PRODUCT_MODE        = 'sscb_product_match_mode';
@@ -108,11 +108,11 @@ final class Plugin {
 	 * @return array<string,string>
 	 */
 	public function plugin_action_links( array $links ): array {
-		$url = admin_url( 'admin.php?page=smart-cart-bridge-for-skroutz' );
+		$url = admin_url( 'admin.php?page=iliaseuthimiou-smart-cart-bridge-skroutz' );
 
 		array_unshift(
 			$links,
-			'<a href="' . esc_url( $url ) . '">' . esc_html__( 'Settings', 'smart-cart-bridge-for-skroutz' ) . '</a>'
+			'<a href="' . esc_url( $url ) . '">' . esc_html__( 'Settings', 'iliaseuthimiou-smart-cart-bridge-skroutz' ) . '</a>'
 		);
 
 		return $links;
@@ -129,7 +129,7 @@ final class Plugin {
 		}
 
 		echo '<div class="notice notice-error"><p>';
-		echo esc_html__( 'Smart Cart Bridge for Skroutz requires WooCommerce to be installed and active.', 'smart-cart-bridge-for-skroutz' );
+		echo esc_html__( 'IliasEuthimiou Smart Cart Bridge for Skroutz requires WooCommerce to be installed and active.', 'iliaseuthimiou-smart-cart-bridge-skroutz' );
 		echo '</p></div>';
 	}
 
@@ -229,20 +229,20 @@ final class Plugin {
 		if ( class_exists( 'WooCommerce' ) ) {
 			add_submenu_page(
 				'woocommerce',
-				__( 'Smart Cart Bridge for Skroutz', 'smart-cart-bridge-for-skroutz' ),
-				__( 'Smart Cart Bridge', 'smart-cart-bridge-for-skroutz' ),
+				__( 'IliasEuthimiou Smart Cart Bridge for Skroutz', 'iliaseuthimiou-smart-cart-bridge-skroutz' ),
+				__( 'Smart Cart Bridge', 'iliaseuthimiou-smart-cart-bridge-skroutz' ),
 				'manage_woocommerce',
-				'smart-cart-bridge-for-skroutz',
+				'iliaseuthimiou-smart-cart-bridge-skroutz',
 				array( $this, 'render_settings_page' )
 			);
 			return;
 		}
 
 		add_options_page(
-			__( 'Smart Cart Bridge for Skroutz', 'smart-cart-bridge-for-skroutz' ),
-			__( 'Smart Cart Bridge', 'smart-cart-bridge-for-skroutz' ),
+			__( 'IliasEuthimiou Smart Cart Bridge for Skroutz', 'iliaseuthimiou-smart-cart-bridge-skroutz' ),
+			__( 'Smart Cart Bridge', 'iliaseuthimiou-smart-cart-bridge-skroutz' ),
 			'manage_options',
-			'smart-cart-bridge-for-skroutz',
+			'iliaseuthimiou-smart-cart-bridge-skroutz',
 			array( $this, 'render_settings_page' )
 		);
 	}
@@ -254,7 +254,7 @@ final class Plugin {
 	 */
 	public function render_settings_page(): void {
 		if ( ! $this->current_user_can_manage() ) {
-			wp_die( esc_html__( 'You are not allowed to manage these settings.', 'smart-cart-bridge-for-skroutz' ) );
+			wp_die( esc_html__( 'You are not allowed to manage these settings.', 'iliaseuthimiou-smart-cart-bridge-skroutz' ) );
 		}
 
 		$product_mode       = (string) get_option( self::OPTION_PRODUCT_MODE, 'id' );
@@ -265,25 +265,25 @@ final class Plugin {
 		$webhook_url        = $this->get_webhook_url();
 		?>
 		<div class="wrap">
-			<h1><?php esc_html_e( 'Smart Cart Bridge for Skroutz', 'smart-cart-bridge-for-skroutz' ); ?></h1>
+			<h1><?php esc_html_e( 'IliasEuthimiou Smart Cart Bridge for Skroutz', 'iliaseuthimiou-smart-cart-bridge-skroutz' ); ?></h1>
 
 			<?php if ( isset( $_GET['secret-regenerated'] ) ) : // phpcs:ignore WordPress.Security.NonceVerification.Recommended ?>
 				<div class="notice notice-success is-dismissible"><p>
-					<?php esc_html_e( 'A new webhook URL was generated. Update it immediately in the Skroutz merchant panel.', 'smart-cart-bridge-for-skroutz' ); ?>
+					<?php esc_html_e( 'A new webhook URL was generated. Update it immediately in the Skroutz merchant panel.', 'iliaseuthimiou-smart-cart-bridge-skroutz' ); ?>
 				</p></div>
 			<?php endif; ?>
 
 			<div class="notice notice-warning inline"><p>
-				<strong><?php esc_html_e( 'Keep the full webhook URL private.', 'smart-cart-bridge-for-skroutz' ); ?></strong>
-				<?php esc_html_e( 'Its secret key authorizes incoming order events.', 'smart-cart-bridge-for-skroutz' ); ?>
+				<strong><?php esc_html_e( 'Keep the full webhook URL private.', 'iliaseuthimiou-smart-cart-bridge-skroutz' ); ?></strong>
+				<?php esc_html_e( 'Its secret key authorizes incoming order events.', 'iliaseuthimiou-smart-cart-bridge-skroutz' ); ?>
 			</p></div>
 
 			<table class="form-table" role="presentation">
 				<tr>
-					<th scope="row"><label for="sscb-webhook-url"><?php esc_html_e( 'Webhook URL', 'smart-cart-bridge-for-skroutz' ); ?></label></th>
+					<th scope="row"><label for="sscb-webhook-url"><?php esc_html_e( 'Webhook URL', 'iliaseuthimiou-smart-cart-bridge-skroutz' ); ?></label></th>
 					<td>
 						<input id="sscb-webhook-url" type="text" class="large-text code" readonly value="<?php echo esc_attr( $webhook_url ); ?>" />
-						<p class="description"><?php esc_html_e( 'Register this complete HTTPS URL in your Skroutz Marketplace settings.', 'smart-cart-bridge-for-skroutz' ); ?></p>
+						<p class="description"><?php esc_html_e( 'Register this complete HTTPS URL in your Skroutz Marketplace settings.', 'iliaseuthimiou-smart-cart-bridge-skroutz' ); ?></p>
 					</td>
 				</tr>
 			</table>
@@ -292,37 +292,37 @@ final class Plugin {
 				<?php settings_fields( 'sscb_settings' ); ?>
 				<table class="form-table" role="presentation">
 					<tr>
-						<th scope="row"><?php esc_html_e( 'Product matching', 'smart-cart-bridge-for-skroutz' ); ?></th>
+						<th scope="row"><?php esc_html_e( 'Product matching', 'iliaseuthimiou-smart-cart-bridge-skroutz' ); ?></th>
 						<td>
 							<?php $this->render_match_mode_fields( self::OPTION_PRODUCT_MODE, $product_mode ); ?>
 							<p>
-								<label for="sscb-product-meta-key"><?php esc_html_e( 'Product meta key:', 'smart-cart-bridge-for-skroutz' ); ?></label>
+								<label for="sscb-product-meta-key"><?php esc_html_e( 'Product meta key:', 'iliaseuthimiou-smart-cart-bridge-skroutz' ); ?></label>
 								<input id="sscb-product-meta-key" type="text" class="regular-text code" name="<?php echo esc_attr( self::OPTION_PRODUCT_META_KEY ); ?>" value="<?php echo esc_attr( $product_meta_key ); ?>" placeholder="_skroutz_shop_uid" />
 							</p>
-							<p class="description"><?php esc_html_e( 'The incoming shop_uid must match the selected identifier.', 'smart-cart-bridge-for-skroutz' ); ?></p>
+							<p class="description"><?php esc_html_e( 'The incoming shop_uid must match the selected identifier.', 'iliaseuthimiou-smart-cart-bridge-skroutz' ); ?></p>
 						</td>
 					</tr>
 
 					<tr>
-						<th scope="row"><?php esc_html_e( 'Variation matching', 'smart-cart-bridge-for-skroutz' ); ?></th>
+						<th scope="row"><?php esc_html_e( 'Variation matching', 'iliaseuthimiou-smart-cart-bridge-skroutz' ); ?></th>
 						<td>
 							<?php $this->render_match_mode_fields( self::OPTION_VARIATION_MODE, $variation_mode ); ?>
 							<p>
-								<label for="sscb-variation-meta-key"><?php esc_html_e( 'Variation meta key:', 'smart-cart-bridge-for-skroutz' ); ?></label>
+								<label for="sscb-variation-meta-key"><?php esc_html_e( 'Variation meta key:', 'iliaseuthimiou-smart-cart-bridge-skroutz' ); ?></label>
 								<input id="sscb-variation-meta-key" type="text" class="regular-text code" name="<?php echo esc_attr( self::OPTION_VARIATION_META_KEY ); ?>" value="<?php echo esc_attr( $variation_meta_key ); ?>" placeholder="_skroutz_variation_uid" />
 							</p>
-							<p class="description"><?php esc_html_e( 'Used when shop_variation_uid is present in the webhook.', 'smart-cart-bridge-for-skroutz' ); ?></p>
+							<p class="description"><?php esc_html_e( 'Used when shop_variation_uid is present in the webhook.', 'iliaseuthimiou-smart-cart-bridge-skroutz' ); ?></p>
 						</td>
 					</tr>
 
 					<tr>
-						<th scope="row"><?php esc_html_e( 'Debug logging', 'smart-cart-bridge-for-skroutz' ); ?></th>
+						<th scope="row"><?php esc_html_e( 'Debug logging', 'iliaseuthimiou-smart-cart-bridge-skroutz' ); ?></th>
 						<td>
 							<label>
 								<input type="checkbox" name="<?php echo esc_attr( self::OPTION_DEBUG_LOGGING ); ?>" value="1" <?php checked( $debug_logging, 1 ); ?> />
-								<?php esc_html_e( 'Write event summaries to WooCommerce logs', 'smart-cart-bridge-for-skroutz' ); ?>
+								<?php esc_html_e( 'Write event summaries to WooCommerce logs', 'iliaseuthimiou-smart-cart-bridge-skroutz' ); ?>
 							</label>
-							<p class="description"><?php esc_html_e( 'Customer names and addresses are never written to the plugin log.', 'smart-cart-bridge-for-skroutz' ); ?></p>
+							<p class="description"><?php esc_html_e( 'Customer names and addresses are never written to the plugin log.', 'iliaseuthimiou-smart-cart-bridge-skroutz' ); ?></p>
 						</td>
 					</tr>
 				</table>
@@ -331,12 +331,12 @@ final class Plugin {
 			</form>
 
 			<hr />
-			<h2><?php esc_html_e( 'Webhook secret', 'smart-cart-bridge-for-skroutz' ); ?></h2>
-			<p><?php esc_html_e( 'Regenerating the secret immediately invalidates the previous webhook URL.', 'smart-cart-bridge-for-skroutz' ); ?></p>
+			<h2><?php esc_html_e( 'Webhook secret', 'iliaseuthimiou-smart-cart-bridge-skroutz' ); ?></h2>
+			<p><?php esc_html_e( 'Regenerating the secret immediately invalidates the previous webhook URL.', 'iliaseuthimiou-smart-cart-bridge-skroutz' ); ?></p>
 			<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
 				<input type="hidden" name="action" value="sscb_regenerate_secret" />
 				<?php wp_nonce_field( 'sscb_regenerate_secret' ); ?>
-				<?php submit_button( __( 'Generate new webhook URL', 'smart-cart-bridge-for-skroutz' ), 'secondary', 'submit', false ); ?>
+				<?php submit_button( __( 'Generate new webhook URL', 'iliaseuthimiou-smart-cart-bridge-skroutz' ), 'secondary', 'submit', false ); ?>
 			</form>
 		</div>
 		<?php
@@ -351,9 +351,9 @@ final class Plugin {
 	 */
 	private function render_match_mode_fields( string $option_name, string $selected ): void {
 		$choices = array(
-			'id'   => __( 'WooCommerce ID', 'smart-cart-bridge-for-skroutz' ),
-			'sku'  => __( 'SKU', 'smart-cart-bridge-for-skroutz' ),
-			'meta' => __( 'Custom meta field', 'smart-cart-bridge-for-skroutz' ),
+			'id'   => __( 'WooCommerce ID', 'iliaseuthimiou-smart-cart-bridge-skroutz' ),
+			'sku'  => __( 'SKU', 'iliaseuthimiou-smart-cart-bridge-skroutz' ),
+			'meta' => __( 'Custom meta field', 'iliaseuthimiou-smart-cart-bridge-skroutz' ),
 		);
 
 		foreach ( $choices as $value => $label ) {
@@ -413,7 +413,7 @@ final class Plugin {
 	 */
 	public function regenerate_webhook_secret(): void {
 		if ( ! $this->current_user_can_manage() ) {
-			wp_die( esc_html__( 'You are not allowed to perform this action.', 'smart-cart-bridge-for-skroutz' ) );
+			wp_die( esc_html__( 'You are not allowed to perform this action.', 'iliaseuthimiou-smart-cart-bridge-skroutz' ) );
 		}
 
 		check_admin_referer( 'sscb_regenerate_secret' );
@@ -422,7 +422,7 @@ final class Plugin {
 		wp_safe_redirect(
 			add_query_arg(
 				array(
-					'page'               => 'smart-cart-bridge-for-skroutz',
+					'page'               => 'iliaseuthimiou-smart-cart-bridge-skroutz',
 					'secret-regenerated' => '1',
 				),
 				admin_url( 'admin.php' )
@@ -480,7 +480,7 @@ final class Plugin {
 		if ( '' === $provided || ! hash_equals( $expected, $provided ) ) {
 			return new WP_Error(
 				'sscb_unauthorized',
-				__( 'Invalid webhook credentials.', 'smart-cart-bridge-for-skroutz' ),
+				__( 'Invalid webhook credentials.', 'iliaseuthimiou-smart-cart-bridge-skroutz' ),
 				array( 'status' => 401 )
 			);
 		}
@@ -498,7 +498,7 @@ final class Plugin {
 		if ( ! function_exists( 'wc_create_order' ) ) {
 			return new WP_Error(
 				'sscb_woocommerce_unavailable',
-				__( 'WooCommerce is unavailable.', 'smart-cart-bridge-for-skroutz' ),
+				__( 'WooCommerce is unavailable.', 'iliaseuthimiou-smart-cart-bridge-skroutz' ),
 				array( 'status' => 503 )
 			);
 		}
@@ -508,7 +508,7 @@ final class Plugin {
 		if ( ! is_array( $payload ) || empty( $payload['event_type'] ) || empty( $payload['order'] ) || ! is_array( $payload['order'] ) ) {
 			return new WP_Error(
 				'sscb_invalid_payload',
-				__( 'The webhook payload is invalid.', 'smart-cart-bridge-for-skroutz' ),
+				__( 'The webhook payload is invalid.', 'iliaseuthimiou-smart-cart-bridge-skroutz' ),
 				array( 'status' => 400 )
 			);
 		}
@@ -519,7 +519,7 @@ final class Plugin {
 		if ( '' === $order_code ) {
 			return new WP_Error(
 				'sscb_missing_order_code',
-				__( 'The webhook does not contain an order code.', 'smart-cart-bridge-for-skroutz' ),
+				__( 'The webhook does not contain an order code.', 'iliaseuthimiou-smart-cart-bridge-skroutz' ),
 				array( 'status' => 400 )
 			);
 		}
@@ -534,7 +534,7 @@ final class Plugin {
 			} else {
 				return new WP_Error(
 					'sscb_unsupported_event',
-					__( 'This webhook event type is not supported.', 'smart-cart-bridge-for-skroutz' ),
+					__( 'This webhook event type is not supported.', 'iliaseuthimiou-smart-cart-bridge-skroutz' ),
 					array( 'status' => 400 )
 				);
 			}
@@ -543,7 +543,7 @@ final class Plugin {
 
 			return new WP_Error(
 				'sscb_processing_failed',
-				__( 'The webhook could not be processed.', 'smart-cart-bridge-for-skroutz' ),
+				__( 'The webhook could not be processed.', 'iliaseuthimiou-smart-cart-bridge-skroutz' ),
 				array( 'status' => 500 )
 			);
 		}
@@ -596,7 +596,7 @@ final class Plugin {
 
 			return new WP_Error(
 				'sscb_order_locked',
-				__( 'This order is already being imported. Retry the request.', 'smart-cart-bridge-for-skroutz' ),
+				__( 'This order is already being imported. Retry the request.', 'iliaseuthimiou-smart-cart-bridge-skroutz' ),
 				array( 'status' => 409 )
 			);
 		}
@@ -624,7 +624,7 @@ final class Plugin {
 				return $order;
 			}
 
-			$order->set_created_via( 'smart-cart-bridge-for-skroutz' );
+			$order->set_created_via( 'iliaseuthimiou-smart-cart-bridge-skroutz' );
 			$order->set_currency( 'EUR' );
 			$this->set_customer_addresses( $order, $order_data );
 
@@ -661,7 +661,7 @@ final class Plugin {
 					$wc_status,
 					sprintf(
 						/* translators: %s: Skroutz order state. */
-						__( 'Created from a Skroutz Smart Cart webhook with state: %s.', 'smart-cart-bridge-for-skroutz' ),
+						__( 'Created from a Skroutz Smart Cart webhook with state: %s.', 'iliaseuthimiou-smart-cart-bridge-skroutz' ),
 						$skroutz_state
 					)
 				);
@@ -684,7 +684,7 @@ final class Plugin {
 
 			return new WP_Error(
 				'sscb_order_creation_failed',
-				__( 'The WooCommerce order could not be created.', 'smart-cart-bridge-for-skroutz' ),
+				__( 'The WooCommerce order could not be created.', 'iliaseuthimiou-smart-cart-bridge-skroutz' ),
 				array( 'status' => 500 )
 			);
 		} finally {
@@ -705,7 +705,7 @@ final class Plugin {
 		if ( ! $order ) {
 			return new WP_Error(
 				'sscb_order_not_found',
-				__( 'The matching WooCommerce order does not exist yet. Retry the request.', 'smart-cart-bridge-for-skroutz' ),
+				__( 'The matching WooCommerce order does not exist yet. Retry the request.', 'iliaseuthimiou-smart-cart-bridge-skroutz' ),
 				array( 'status' => 409 )
 			);
 		}
@@ -774,7 +774,7 @@ final class Plugin {
 		if ( empty( $items ) ) {
 			return new WP_Error(
 				'sscb_no_line_items',
-				__( 'The order does not contain any line items.', 'smart-cart-bridge-for-skroutz' ),
+				__( 'The order does not contain any line items.', 'iliaseuthimiou-smart-cart-bridge-skroutz' ),
 				array( 'status' => 422 )
 			);
 		}
@@ -787,7 +787,7 @@ final class Plugin {
 					'sscb_missing_shop_uid',
 					sprintf(
 						/* translators: %d: Line-item position. */
-						__( 'Line item %d does not contain shop_uid.', 'smart-cart-bridge-for-skroutz' ),
+						__( 'Line item %d does not contain shop_uid.', 'iliaseuthimiou-smart-cart-bridge-skroutz' ),
 						$index + 1
 					),
 					array( 'status' => 422 )
@@ -803,7 +803,7 @@ final class Plugin {
 			if ( $quantity < 1 ) {
 				return new WP_Error(
 					'sscb_invalid_quantity',
-					__( 'A line item contains an invalid quantity.', 'smart-cart-bridge-for-skroutz' ),
+					__( 'A line item contains an invalid quantity.', 'iliaseuthimiou-smart-cart-bridge-skroutz' ),
 					array( 'status' => 422 )
 				);
 			}
@@ -818,7 +818,7 @@ final class Plugin {
 			if ( null === $total || (float) $total < 0 ) {
 				return new WP_Error(
 					'sscb_invalid_line_total',
-					__( 'A line item contains an invalid price.', 'smart-cart-bridge-for-skroutz' ),
+					__( 'A line item contains an invalid price.', 'iliaseuthimiou-smart-cart-bridge-skroutz' ),
 					array( 'status' => 422 )
 				);
 			}
@@ -848,7 +848,7 @@ final class Plugin {
 		if ( ! is_numeric( $order_data['shipping_cost'] ) ) {
 			return new WP_Error(
 				'sscb_invalid_shipping_total',
-				__( 'The order contains an invalid shipping cost.', 'smart-cart-bridge-for-skroutz' ),
+				__( 'The order contains an invalid shipping cost.', 'iliaseuthimiou-smart-cart-bridge-skroutz' ),
 				array( 'status' => 422 )
 			);
 		}
@@ -857,7 +857,7 @@ final class Plugin {
 		if ( (float) $total < 0 ) {
 			return new WP_Error(
 				'sscb_invalid_shipping_total',
-				__( 'The order contains an invalid shipping cost.', 'smart-cart-bridge-for-skroutz' ),
+				__( 'The order contains an invalid shipping cost.', 'iliaseuthimiou-smart-cart-bridge-skroutz' ),
 				array( 'status' => 422 )
 			);
 		}
@@ -878,8 +878,8 @@ final class Plugin {
 		}
 
 		$shipping_item = new WC_Order_Item_Shipping();
-		$shipping_item->set_method_title( __( 'Skroutz Marketplace shipping', 'smart-cart-bridge-for-skroutz' ) );
-		$shipping_item->set_method_id( 'smart-cart-bridge-for-skroutz' );
+		$shipping_item->set_method_title( __( 'Skroutz Marketplace shipping', 'iliaseuthimiou-smart-cart-bridge-skroutz' ) );
+		$shipping_item->set_method_id( 'iliaseuthimiou-smart-cart-bridge-skroutz' );
 		$shipping_item->set_total( $shipping_total );
 		$order->add_item( $shipping_item );
 	}
@@ -907,7 +907,7 @@ final class Plugin {
 				'sscb_product_not_found',
 				sprintf(
 					/* translators: %s: Incoming product identifier. */
-					__( 'No WooCommerce product matches shop_uid %s.', 'smart-cart-bridge-for-skroutz' ),
+					__( 'No WooCommerce product matches shop_uid %s.', 'iliaseuthimiou-smart-cart-bridge-skroutz' ),
 					$product_uid
 				),
 				array( 'status' => 422 )
@@ -919,7 +919,7 @@ final class Plugin {
 			if ( $product->is_type( 'variable' ) ) {
 				return new WP_Error(
 					'sscb_variation_uid_missing',
-					__( 'A variable product line item does not contain shop_variation_uid.', 'smart-cart-bridge-for-skroutz' ),
+					__( 'A variable product line item does not contain shop_variation_uid.', 'iliaseuthimiou-smart-cart-bridge-skroutz' ),
 					array( 'status' => 422 )
 				);
 			}
@@ -942,7 +942,7 @@ final class Plugin {
 				'sscb_variation_not_found',
 				sprintf(
 					/* translators: %s: Incoming variation identifier. */
-					__( 'No WooCommerce variation matches shop_variation_uid %s.', 'smart-cart-bridge-for-skroutz' ),
+					__( 'No WooCommerce variation matches shop_variation_uid %s.', 'iliaseuthimiou-smart-cart-bridge-skroutz' ),
 					$variation_uid
 				),
 				array( 'status' => 422 )
@@ -953,14 +953,14 @@ final class Plugin {
 			if ( $product->get_id() !== $variation->get_id() ) {
 				return new WP_Error(
 					'sscb_variation_mismatch',
-					__( 'The resolved product and variation identifiers do not match.', 'smart-cart-bridge-for-skroutz' ),
+					__( 'The resolved product and variation identifiers do not match.', 'iliaseuthimiou-smart-cart-bridge-skroutz' ),
 					array( 'status' => 422 )
 				);
 			}
 		} elseif ( $variation->get_parent_id() !== $product->get_id() ) {
 			return new WP_Error(
 				'sscb_variation_parent_mismatch',
-				__( 'The resolved variation does not belong to the resolved parent product.', 'smart-cart-bridge-for-skroutz' ),
+				__( 'The resolved variation does not belong to the resolved parent product.', 'iliaseuthimiou-smart-cart-bridge-skroutz' ),
 				array( 'status' => 422 )
 			);
 		}
@@ -1008,7 +1008,7 @@ final class Plugin {
 			if ( '' === $meta_key ) {
 				return new WP_Error(
 					'sscb_meta_key_missing',
-					__( 'Custom-meta matching is selected, but its meta key is empty.', 'smart-cart-bridge-for-skroutz' ),
+					__( 'Custom-meta matching is selected, but its meta key is empty.', 'iliaseuthimiou-smart-cart-bridge-skroutz' ),
 					array( 'status' => 500 )
 				);
 			}
@@ -1028,7 +1028,7 @@ final class Plugin {
 			if ( count( $matches ) > 1 ) {
 				return new WP_Error(
 					'sscb_ambiguous_product_match',
-					__( 'More than one product has the same configured marketplace identifier.', 'smart-cart-bridge-for-skroutz' ),
+					__( 'More than one product has the same configured marketplace identifier.', 'iliaseuthimiou-smart-cart-bridge-skroutz' ),
 					array( 'status' => 422 )
 				);
 			}
@@ -1270,7 +1270,7 @@ final class Plugin {
 				$target,
 				sprintf(
 					/* translators: %s: Skroutz order state. */
-					__( 'Skroutz order state changed to: %s.', 'smart-cart-bridge-for-skroutz' ),
+					__( 'Skroutz order state changed to: %s.', 'iliaseuthimiou-smart-cart-bridge-skroutz' ),
 					$state
 				)
 			);
@@ -1280,7 +1280,7 @@ final class Plugin {
 		$order->add_order_note(
 			sprintf(
 				/* translators: %s: Skroutz order state. */
-				__( 'Skroutz order state changed to: %s.', 'smart-cart-bridge-for-skroutz' ),
+				__( 'Skroutz order state changed to: %s.', 'iliaseuthimiou-smart-cart-bridge-skroutz' ),
 				$state
 			)
 		);
@@ -1402,7 +1402,7 @@ final class Plugin {
 
 		add_meta_box(
 			'sscb-order-info',
-			__( 'Smart Cart order from Skroutz', 'smart-cart-bridge-for-skroutz' ),
+			__( 'Smart Cart order from Skroutz', 'iliaseuthimiou-smart-cart-bridge-skroutz' ),
 			array( $this, 'render_order_metabox' ),
 			wc_get_page_screen_id( 'shop-order' ),
 			'side',
@@ -1420,29 +1420,29 @@ final class Plugin {
 		$order = $this->normalize_order_object( $post_or_order_object );
 
 		if ( ! $order || ! $this->is_skroutz_order( $order ) ) {
-			echo '<p>' . esc_html__( 'This is not a Skroutz Smart Cart order.', 'smart-cart-bridge-for-skroutz' ) . '</p>';
+			echo '<p>' . esc_html__( 'This is not a Skroutz Smart Cart order.', 'iliaseuthimiou-smart-cart-bridge-skroutz' ) . '</p>';
 			return;
 		}
 
 		$fields = array(
-			'order_code'             => __( 'Order code', 'smart-cart-bridge-for-skroutz' ),
-			'state'                  => __( 'State', 'smart-cart-bridge-for-skroutz' ),
-			'courier'                => __( 'Courier', 'smart-cart-bridge-for-skroutz' ),
-			'courier_voucher'        => __( 'Courier voucher', 'smart-cart-bridge-for-skroutz' ),
-			'courier_tracking_codes' => __( 'Tracking codes', 'smart-cart-bridge-for-skroutz' ),
-			'created_at'             => __( 'Created at', 'smart-cart-bridge-for-skroutz' ),
-			'expires_at'             => __( 'Expires at', 'smart-cart-bridge-for-skroutz' ),
-			'dispatch_until'         => __( 'Dispatch until', 'smart-cart-bridge-for-skroutz' ),
-			'pickup_window'          => __( 'Pickup window', 'smart-cart-bridge-for-skroutz' ),
-			'number_of_parcels'      => __( 'Parcels', 'smart-cart-bridge-for-skroutz' ),
-			'shipping_cost'          => __( 'Shipping cost', 'smart-cart-bridge-for-skroutz' ),
-			'payment_method'         => __( 'Payment method', 'smart-cart-bridge-for-skroutz' ),
-			'paid_by_user'           => __( 'Paid by customer', 'smart-cart-bridge-for-skroutz' ),
-			'commission'             => __( 'Commission', 'smart-cart-bridge-for-skroutz' ),
-			'fees'                   => __( 'Fees', 'smart-cart-bridge-for-skroutz' ),
-			'invoice_document'       => __( 'Document', 'smart-cart-bridge-for-skroutz' ),
-			'fulfillment_mode'       => __( 'Fulfillment', 'smart-cart-bridge-for-skroutz' ),
-			'is_ready_for_dispatch'  => __( 'Ready for dispatch', 'smart-cart-bridge-for-skroutz' ),
+			'order_code'             => __( 'Order code', 'iliaseuthimiou-smart-cart-bridge-skroutz' ),
+			'state'                  => __( 'State', 'iliaseuthimiou-smart-cart-bridge-skroutz' ),
+			'courier'                => __( 'Courier', 'iliaseuthimiou-smart-cart-bridge-skroutz' ),
+			'courier_voucher'        => __( 'Courier voucher', 'iliaseuthimiou-smart-cart-bridge-skroutz' ),
+			'courier_tracking_codes' => __( 'Tracking codes', 'iliaseuthimiou-smart-cart-bridge-skroutz' ),
+			'created_at'             => __( 'Created at', 'iliaseuthimiou-smart-cart-bridge-skroutz' ),
+			'expires_at'             => __( 'Expires at', 'iliaseuthimiou-smart-cart-bridge-skroutz' ),
+			'dispatch_until'         => __( 'Dispatch until', 'iliaseuthimiou-smart-cart-bridge-skroutz' ),
+			'pickup_window'          => __( 'Pickup window', 'iliaseuthimiou-smart-cart-bridge-skroutz' ),
+			'number_of_parcels'      => __( 'Parcels', 'iliaseuthimiou-smart-cart-bridge-skroutz' ),
+			'shipping_cost'          => __( 'Shipping cost', 'iliaseuthimiou-smart-cart-bridge-skroutz' ),
+			'payment_method'         => __( 'Payment method', 'iliaseuthimiou-smart-cart-bridge-skroutz' ),
+			'paid_by_user'           => __( 'Paid by customer', 'iliaseuthimiou-smart-cart-bridge-skroutz' ),
+			'commission'             => __( 'Commission', 'iliaseuthimiou-smart-cart-bridge-skroutz' ),
+			'fees'                   => __( 'Fees', 'iliaseuthimiou-smart-cart-bridge-skroutz' ),
+			'invoice_document'       => __( 'Document', 'iliaseuthimiou-smart-cart-bridge-skroutz' ),
+			'fulfillment_mode'       => __( 'Fulfillment', 'iliaseuthimiou-smart-cart-bridge-skroutz' ),
+			'is_ready_for_dispatch'  => __( 'Ready for dispatch', 'iliaseuthimiou-smart-cart-bridge-skroutz' ),
 		);
 
 		echo '<table class="widefat striped"><tbody>';
@@ -1493,7 +1493,7 @@ final class Plugin {
 	 */
 	private function format_admin_meta_value( $value ): string {
 		if ( is_bool( $value ) ) {
-			return $value ? esc_html__( 'Yes', 'smart-cart-bridge-for-skroutz' ) : esc_html__( 'No', 'smart-cart-bridge-for-skroutz' );
+			return $value ? esc_html__( 'Yes', 'iliaseuthimiou-smart-cart-bridge-skroutz' ) : esc_html__( 'No', 'iliaseuthimiou-smart-cart-bridge-skroutz' );
 		}
 
 		if ( is_array( $value ) ) {
@@ -1502,7 +1502,7 @@ final class Plugin {
 
 		$value = (string) $value;
 		if ( wp_http_validate_url( $value ) ) {
-			return '<a href="' . esc_url( $value ) . '" target="_blank" rel="noopener noreferrer">' . esc_html__( 'Open link', 'smart-cart-bridge-for-skroutz' ) . '</a>';
+			return '<a href="' . esc_url( $value ) . '" target="_blank" rel="noopener noreferrer">' . esc_html__( 'Open link', 'iliaseuthimiou-smart-cart-bridge-skroutz' ) . '</a>';
 		}
 
 		return esc_html( $value );
@@ -1520,7 +1520,7 @@ final class Plugin {
 
 		foreach ( $columns as $key => $label ) {
 			if ( 'order_status' === $key ) {
-				$result['sscb_skroutz'] = __( 'Skroutz', 'smart-cart-bridge-for-skroutz' );
+				$result['sscb_skroutz'] = __( 'Skroutz', 'iliaseuthimiou-smart-cart-bridge-skroutz' );
 				$inserted               = true;
 			}
 
@@ -1528,7 +1528,7 @@ final class Plugin {
 		}
 
 		if ( ! $inserted ) {
-			$result['sscb_skroutz'] = __( 'Skroutz', 'smart-cart-bridge-for-skroutz' );
+			$result['sscb_skroutz'] = __( 'Skroutz', 'iliaseuthimiou-smart-cart-bridge-skroutz' );
 		}
 
 		return $result;

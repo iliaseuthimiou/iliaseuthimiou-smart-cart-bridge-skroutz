@@ -22,15 +22,15 @@ jobs:
           RELEASE_TAG: ${{ github.event.release.tag_name }}
         run: |
           tag_version="${RELEASE_TAG#v}"
-          plugin_version="$(sed -n 's/^ \* Version:[[:space:]]*//p' smart-cart-bridge-for-skroutz.php | head -n 1)"
+          plugin_version="$(sed -n 's/^ \* Version:[[:space:]]*//p' iliaseuthimiou-smart-cart-bridge-skroutz.php | head -n 1)"
           if [ "$tag_version" != "$plugin_version" ]; then
             echo "Release tag $RELEASE_TAG does not match plugin version $plugin_version."
             exit 1
           fi
           git archive \
             --format=zip \
-            --prefix=smart-cart-bridge-for-skroutz/ \
-            --output="smart-cart-bridge-for-skroutz-${tag_version}.zip" \
+            --prefix=iliaseuthimiou-smart-cart-bridge-skroutz/ \
+            --output="iliaseuthimiou-smart-cart-bridge-skroutz-${tag_version}.zip" \
             HEAD
 
       - name: Attach ZIP to release
@@ -39,4 +39,4 @@ jobs:
           RELEASE_TAG: ${{ github.event.release.tag_name }}
         run: |
           tag_version="${RELEASE_TAG#v}"
-          gh release upload "$RELEASE_TAG" "smart-cart-bridge-for-skroutz-${tag_version}.zip" --clobber
+          gh release upload "$RELEASE_TAG" "iliaseuthimiou-smart-cart-bridge-skroutz-${tag_version}.zip" --clobber

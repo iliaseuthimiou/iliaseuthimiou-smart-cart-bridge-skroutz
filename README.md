@@ -1,4 +1,4 @@
-# Smart Cart Bridge for Skroutz
+# IliasEuthimiou Smart Cart Bridge for Skroutz
 
 An unofficial WordPress plugin that receives Skroutz Marketplace Smart Cart order webhooks, creates the corresponding WooCommerce orders, and synchronizes later order-state and shipment updates.
 
@@ -31,16 +31,16 @@ Created and maintained by [Ilias Euthimiou](https://iliaseuthimiou.com).
 
 ### Install the ZIP
 
-1. Download `smart-cart-bridge-for-skroutz-1.0.1.zip` from the latest GitHub release.
+1. Download `iliaseuthimiou-smart-cart-bridge-skroutz-1.0.2.zip` from the latest GitHub release.
 2. In WordPress, open **Plugins → Add New Plugin → Upload Plugin**.
-3. Upload the ZIP and activate **Smart Cart Bridge for Skroutz**.
+3. Upload the ZIP and activate **IliasEuthimiou Smart Cart Bridge for Skroutz**.
 
 ### Install from source
 
 Clone this repository into the intended plugin directory:
 
 ```bash
-git clone https://github.com/iliaseuthimiou/woocommerce-skroutz-smart-cart-bridge.git smart-cart-bridge-for-skroutz
+git clone https://github.com/iliaseuthimiou/iliaseuthimiou-smart-cart-bridge-skroutz.git iliaseuthimiou-smart-cart-bridge-skroutz
 ```
 
 Then activate it from the WordPress Plugins screen.
